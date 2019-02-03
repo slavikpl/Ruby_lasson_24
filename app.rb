@@ -8,6 +8,7 @@ get '/' do
 end
 
 get '/abaut' do
+  @error = "Ошибка"
   erb :abaut
 end
 
@@ -26,6 +27,11 @@ post '/visit' do
   @datetime = params[:datetime]
   @barber = params[:barber]
   @color = params[:color]
+
+  if @username == ""
+    @error = "Введите имя!"
+    return erb :visit
+  end
 
   data = File.open './public/users.txt','a'
   data.write "Имя клиента: #{@username}, телефон: #{@phone}, дата и время: #{@datetime}, парикмахер: #{@barber}, цвет волос #{@color}\n"

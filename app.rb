@@ -28,10 +28,25 @@ post '/visit' do
   @barber = params[:barber]
   @color = params[:color]
 
-  if @username == ""
-    @error = "Введите имя!"
-    return erb :visit
+  # Создаем хэш
+
+  hh = {:username => "Введите имя", 
+        :phone => "Введите телефон",
+        :datetime => "Введите дату и время"}
+  # Для каждой пары проверку перебераем хэш ключ - значение
+
+         hh.each do |key, value|
+            # Если параметр пуст
+            if params[key] == ""
+              # Переменной @eror 
+               @error = hh[key] 
+
+               return erb :visit
+
+            end
   end
+
+
 
   data = File.open './public/users.txt','a'
   data.write "Имя клиента: #{@username}, телефон: #{@phone}, дата и время: #{@datetime}, парикмахер: #{@barber}, цвет волос #{@color}\n"
